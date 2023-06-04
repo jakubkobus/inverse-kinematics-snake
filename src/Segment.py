@@ -26,9 +26,8 @@ class Segment:
         # direction *= -lengthFactor
         
         direction.clamp_magnitude_ip(self.length, self.length)
-        direction *= -1
         
-        self.end = target + direction
+        self.end = target + direction * -1
         
     
     def update(self, dt) -> None:
