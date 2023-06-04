@@ -1,0 +1,2 @@
+
+WIDTH, HEIGHT = SIZE = 600, 600
