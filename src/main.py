@@ -8,6 +8,8 @@ WIDTH, HEIGHT = SIZE = 600, 600
 win = pg.display.set_mode(SIZE)
 
 head = Segment(300, 300, 0)
+tail = [head]
+for _ in range(5): tail.append(Segment(0, 0, 0))
 
 def events() -> bool:
     for e in pg.event.get():
@@ -19,10 +21,17 @@ def events() -> bool:
 def update(dt: float) -> None:
     head.update(dt)
     head.follow(*pg.mouse.get_pos())
-
+    
+    for i, t in enumerate(tail):
+        if i == 0: continue
+        t.update(dt)
+        last = tail[i - 1].end
+        t.follow(last.x, last.y)
+    
 def draw() -> None:
     win.fill((30, 30, 30))
-    head.draw(win)
+    for t in tail:
+        t.draw(win)
     pg.display.update()
 
 while events():

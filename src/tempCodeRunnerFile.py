@@ -1,2 +1,2 @@
 
-WIDTH, HEIGHT = SIZE = 600, 600
+import pygame as pg

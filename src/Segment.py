@@ -1,44 +1,35 @@
 import pygame as pg
-from math import sin, cos, atan2
-
-class Vector:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        
-    def get(self):
-        return (self.x, self.y)
-    
-    def set(self, x ,y):
-        self.x = x
-        self.y = y
-        
-    def multiply(self, f1, f2 = 1):
-        self.x *= f1
-        self.y *= f2 if f2 != 1 else f1
+from pygame.math import Vector2
+from math import sin, cos, atan2, sqrt, radians
+from math import pi as PI
 
 class Segment:
     def __init__(self, x, y, angle):
         self.angle = angle
-        self.length = 40
-        self.start = Vector(x, y)
-        self.end = None
-        
-    def calculateEnd(self) -> (float, float):
+        self.length = 30
+        self.start = None
+        self.end = Vector2(x, y)
+
+    def calculateStart(self) -> (float, float):
         dx = cos(self.angle) * self.length
         dy = sin(self.angle) * self.length
-        self.end = Vector(self.start.x + dx, self.start.y + dy)
+        self.start = Vector2(self.end.x + dx, self.end.y + dy)
     
     def follow(self, tx, ty) -> None:
-        ox, oy = tx - self.start.x, ty - self.start.y
-        direction = Vector(ox, oy)
-        self.angle = atan2(direction.x, direction.y)
+        target = Vector2(tx, ty)
+        direction = target - self.end
+        self.angle = atan2(direction.y, direction.x)
         
+        divider = sqrt(direction.x ** 2 + direction.y ** 2)
+        divider = divider if divider != 0 else .001
+        lengthFactor = self.length / divider
+        direction *= -lengthFactor
         
-        self.start.set(tx, ty)
+        self.end = target + direction
+        
     
     def update(self, dt) -> None:
-        self.calculateEnd()
+        self.calculateStart()
     
     def draw(self, win) -> None:
-        pg.draw.line(win, (255, 255, 255), self.start.get(), self.end.get())
+        pg.draw.line(win, (255, 255, 255), self.start, self.end)
