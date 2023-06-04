@@ -20,10 +20,13 @@ class Segment:
         direction = target - self.end
         self.angle = atan2(direction.y, direction.x)
         
-        divider = sqrt(direction.x ** 2 + direction.y ** 2)
-        divider = divider if divider != 0 else .001
-        lengthFactor = self.length / divider
-        direction *= -lengthFactor
+        # divider = sqrt(direction.x ** 2 + direction.y ** 2)
+        # divider = divider if divider != 0 else .001
+        # lengthFactor = self.length / divider
+        # direction *= -lengthFactor
+        
+        direction.clamp_magnitude_ip(self.length, self.length)
+        direction *= -1
         
         self.end = target + direction
         
