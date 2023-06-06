@@ -1,6 +1,6 @@
 import pygame as pg
 from pygame.math import Vector2
-from math import sin, cos, atan2, sqrt, radians
+from math import sin, cos, atan2, sqrt
 from math import pi as PI
 
 class Segment:
