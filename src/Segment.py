@@ -1,12 +1,12 @@
+from math import cos, sin, atan2 #, sqrt
+
 import pygame as pg
 from pygame.math import Vector2
-from math import sin, cos, atan2, sqrt
-from math import pi as PI
 
 class Segment:
     def __init__(self, x, y, angle):
         self.angle = angle
-        self.length = 30
+        self.length = 10
         self.start = None
         self.end = Vector2(x, y)
 
@@ -29,7 +29,6 @@ class Segment:
         
         self.end = target + direction * -1
         
-    
     def update(self, dt) -> None:
         self.calculateStart()
     

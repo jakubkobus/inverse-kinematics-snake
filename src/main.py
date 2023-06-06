@@ -1,22 +1,25 @@
 from Segment import Segment
 from Brain import Brain
+from AppleGenerator import AppleGenerator
+
 from math import sin, cos
 
-from pygame.math import Vector2
 import pygame as pg
 pg.init()
 
 WIDTH, HEIGHT = SIZE = 600, 600
 
 win = pg.display.set_mode(SIZE)
+pg.display.set_caption("Inverse kinematics snake")
 
-brain = Brain(300, 300, 0, 100)
+brain: Brain = Brain(300, 300, 0, 100)
+head: Segment = Segment(0, 0, 0)
+tail: [Segment, ...] = [head]
 
-head = Segment(0, 0, 0)
-tail = [head]
-for _ in range(5): tail.append(Segment(0, 0, 0))
+apple: AppleGenerator = AppleGenerator(WIDTH, HEIGHT)
+apple.new()
 
-direction = 0
+direction: int = 0 # left = -1 ; right = 1
 
 def events() -> bool:
     global direction
@@ -40,7 +43,14 @@ def events() -> bool:
     return True
 
 def update(dt: float) -> None:
-    global currentPosition
+    global apple, tail
+    
+    appleDelta = brain.pos - apple.pos
+    
+    if abs(appleDelta.x) <= apple.radius and abs(appleDelta.y) <= apple.radius:
+        last = tail[-1]
+        tail.append(Segment(last.end.x, last.end.y, last.angle))
+        apple.new()
     
     brain.update(dt)
     
@@ -58,8 +68,11 @@ def update(dt: float) -> None:
     
 def draw() -> None:
     win.fill((30, 30, 30))
+    
     for t in tail:
         t.draw(win)
+        
+    apple.draw(win)
     
     pg.display.update()
 

@@ -1,7 +1,7 @@
+from math import cos, sin, pi
+
 import pygame as pg
 from pygame.math import Vector2
-from math import sin, cos
-from math import pi as PI
 
 class Brain:
     def __init__(self, x, y, angle, velocity):
@@ -15,4 +15,4 @@ class Brain:
         self.pos += self.direction * self.velocity * dt
         
     def turn(self, direction_):
-        self.angle += direction_ * PI / 60
+        self.angle += direction_ * pi / 60
