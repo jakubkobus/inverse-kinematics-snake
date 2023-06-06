@@ -11,7 +11,7 @@ class AppleGenerator:
         self.pos = None
         
     def new(self):
-        self.pos = Vector2(randint(0, self.width - self.radius), randint(0, self.height - self.radius))
+        self.pos = Vector2(randint(self.radius, self.width - self.radius), randint(self.radius, self.height - self.radius))
         
     def draw(self, win):
         pg.draw.circle(win, (255, 20, 20), self.pos, self.radius)
